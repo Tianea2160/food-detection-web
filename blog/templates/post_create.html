@@ -1,0 +1,8 @@
+{% block content %}
+<form method="POST" action="{% url 'create' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" name="title">
+    <input type="file" name="image" multiple>
+    <input type="submit" value="작성하기">
+</form>
+{% endblock %}

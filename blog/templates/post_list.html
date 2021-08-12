@@ -1,0 +1,14 @@
+{% block content %}
+    <a href="/blog/create/">post create</a>
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        <hr>
+        {% for photo in post.photo_set.all%}
+            <img src="{{photo.image.url}}" width="500" height="400"><br>
+        {% endfor %}
+        <br>
+        //서버를 실제로 열면 그 서버 주소로 변경
+        <input type="button" value="{{ post.title }} 보기" onClick="location.href='http://localhost:8000/blog/detail/{{ post.id }}/'">
+
+    {% endfor %}
+{% endblock %}

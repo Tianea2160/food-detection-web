@@ -1,0 +1,12 @@
+{% block content %}
+    <a href="/blog/">back</a>
+    <h2>{{ post.id }}번째 포스트 입니다.</h2>
+    {{ post.title }}<hr>
+    {% for photo in post.photo_set.all%}
+        <img src="{{photo.image.url}}" width="50"><br>
+        <h3>{{ photo.image.url }}</h3>
+    {% endfor %}
+    {% for output in post.output_set.all %}
+        <h5>{{ output.name }}</h5>
+    {% endfor %}
+{% endblock %}
