@@ -45,6 +45,7 @@ def create(request):
                     output.Fat = nutrition_facts.Fat
                     output.energy = nutrition_facts.energy
                     output.sugars = nutrition_facts.Totalsugars
+
                     output.save()
         return redirect('/blog/')
     else:

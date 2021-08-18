@@ -23,8 +23,6 @@ class Output(models.Model):
     sugars = models.FloatField(null=True)
     energy = models.FloatField(null=True)
 
-
-
 class NutritionFacts(models.Model):
     NO = models.IntegerField()
     SAMPLE_ID = models.IntegerField()
