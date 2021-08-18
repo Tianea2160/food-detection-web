@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+    <script>
+        let total_Carbohydrate = 0;
+        let total_sugars = 0;
+        let total_energy = 0;
+        let total_Protein = 0;
+        let total_Fat = 0;
+        let total_One_timesupply = 0;
+    </script>
+    <br>
+    <div class="container">
+        <input type="button" class="btn btn-dark" value="Back" onClick="location.href='http://localhost:8000/blog/'">
+    </div>
+    <br>
+    <div class="container">
+        <div class="jumbotron">
+            <h2>{{ post.id }}번째 포스트 입니다.</h2>
+            <p>Title : {{ post.title }}</p><hr>
+            <div class="row">
+                <div class="col-md-6">
+                    {% for photo in post.photo_set.all %}
+                        <img src="{{photo.image.url}}" width="500" height="400"><br>
+                    {% endfor %}
+                </div>
+                <div class="col-md-4">
+                    <h5>Food Detection Output</h5>
+                    {% for output in post.output_set.all %}
+                        <p>- {{ output.name }}</p><br>
+                        <h5>{{ output.name }}의 영양정보</h5>
+                        <p>- {{ output.One_timesupply }}g</p>
+                        <p>- {{ output.Carbohydrate }}g</p>
+                        <p>- {{ output.Protein }}g</p>
+                        <p>- {{ output.Fat }}g</p>
+                        <p>- {{ output.sugars }}g</p>
+                        <p>- {{ output.energy }}kcal</p>
+
+                        <script>
+                            total_Carbohydrate += {{ output.Carbohydrate }}
+                            total_Protein += {{ output.Protein }}
+                            total_Fat += {{ output.Fat }}
+                            total_One_timesupply += {{ output.One_timesupply }}
+                            total_sugars += {{ output.sugars }}
+                            total_energy += {{ output.energy }}
+                        </script>
+                    {% endfor %}
+                </div>
+            </div><hr>
+            <div class="container">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+<!--그래프로 출력-->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+<script>
+    var ctx = document.getElementById('myChart');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Kcal', 'Carbohydrate(g)', 'Protein(g)', 'Fat(g)', 'Sugar(g)', 'One time supply(g)'],
+            datasets: [{label : 'Total Nutrition Facts', data: [total_energy ,total_Carbohydrate, total_Protein, total_Fat, total_sugars, total_One_timesupply],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255,159,64,0.2)'],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'],
+                borderWidth: 1 }] },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: { beginAtZero: true }
+                }]
+            }
+        }
+    });
+</script>
+
+
+{% endblock %}
