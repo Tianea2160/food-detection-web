@@ -3,7 +3,9 @@ from django.db import models
 # Create your models here.
 class Post(models.Model):
     title = models.CharField(max_length=20)
-    image = models.ImageField(upload_to="media/image/")
+    image = models.ImageField(upload_to='media', null=True)
+    # create_at = models.DateTimeField(auto_now=True)
+    # 아직 migrate 안함
 
 class Photo(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
@@ -23,12 +25,23 @@ class Output(models.Model):
     sugars = models.FloatField(null=True)
     energy = models.FloatField(null=True)
 
+
+class total_information(models.Model):
+    create_at = models.DateTimeField(auto_now=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
+    total_One_timesupply = models.FloatField(null=True)
+    total_Carbohydrate = models.FloatField(null=True)
+    total_Protein = models.FloatField(null=True)
+    total_Fat = models.FloatField(null=True)
+    total_sugars = models.FloatField(null=True)
+    total_energy = models.FloatField(null=True)
+
 class NutritionFacts(models.Model):
     NO = models.IntegerField()
     SAMPLE_ID = models.IntegerField()
     code = models.CharField(max_length=30)
     DB = models.CharField(max_length=30)
-    Foodname1 = models.CharField(max_length=20)
+    Foodname1 = models.CharField(max_length=30)
     One_timesupply = models.FloatField()
     energy = models.FloatField()
     Protein = models.FloatField()
