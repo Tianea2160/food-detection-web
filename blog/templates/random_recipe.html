@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+    <br>
+<div class="container">
+    <div class="jumbotron">
+        <h2>- 추천 음식 레시피 -</h2>
+        {% for i in title %}
+            <h3>{{ i }}</h3>
+        {% endfor %}<hr>
+        <h2>재료</h2>
+        {% for i in source.values %}
+            {% for j in i %}
+                 - {{ j }}
+            {% endfor %}
+        {% endfor %}<hr>
+        <h2>조리 과정</h2>
+        {% for i in steps %}
+            {{ i }}<br><br>
+        {% endfor %}<hr>
+    </div>
+</div>
+{% endblock %}

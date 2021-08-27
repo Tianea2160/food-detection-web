@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post, Photo, Output, NutritionFacts, total_information
 from test import pretreatment_file
 from cheak import image_predeict
-# Create your views here.
-
+from django.shortcuts import render
+from django.http import HttpResponse
+import requests, random
+from bs4 import BeautifulSoup
 
 def post_list(request):
     posts = Post.objects.order_by('-pk')
@@ -86,7 +88,65 @@ def detail(request, pk):
     content = {'post': post, 'info': info}
     return render(request, 'post_detail.html', content)
 
-def test(request):
-    facts = NutritionFacts.objects.all()
-    context = {'facts': facts}
-    return render(request, 'test.html', context=context)
+baseUrl = 'http://www.10000recipe.com/recipe/'
+
+def PageCrawler(recipeUrl):
+    url = baseUrl + recipeUrl
+
+    page = requests.get(url)
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    recipe_title = []  # 레시피 제목
+    recipe_source = {}  # 레시피 재료
+    recipe_step = []  # 레시피 순서
+
+    try:
+        res = soup.find('div', 'view2_summary')
+        res = res.find('h3')
+        recipe_title.append(res.get_text())
+        res = soup.find('div', 'view2_summary_info')
+        recipe_title.append(res.get_text().replace('\n', ''))
+        res = soup.find('div', 'ready_ingre3')
+    except(AttributeError):
+        return
+
+    # 재료 찾는 for문 가끔 형식에 맞지 않는 레시피들이 있어 try/ except 해준다
+    try:
+        for n in res.find_all('ul'):
+            source = []
+            title = n.find('b').get_text()
+            recipe_source[title] = ''
+            for tmp in n.find_all('li'):
+                tempSource = tmp.get_text().replace('\n', '').replace(' ', ' ')
+                source.append(tempSource.split("    ")[0])
+
+            recipe_source[title] = source
+    except (AttributeError):
+        return
+
+    # 요리순서 찾는 for문
+    res = soup.find('div', 'view_step')
+    i = 0
+    for n in res.find_all('div', 'view_step_cont'):
+        i = i + 1
+        recipe_step.append('#' + str(i) + ' ' + n.get_text().replace('\n', '').replace(' ', ' '))
+
+        # 블로그 형식의 글은 스텝이 정확하게 되어있지 않기 때문에 제외해준다
+    if not recipe_step:
+        return
+
+    recipe_all = [recipe_title, recipe_source, recipe_step]  # 제목, 재료, 순서
+    return recipe_all
+
+def recipe(request) :
+    # random number make
+    random_num = random.sample(range(101, 999), 1)
+    num = random_num[0]
+    content = {}
+    content_List = PageCrawler('6900' + str(num))
+    content['title'] = content_List[0]
+    content['source'] = content_List[1]
+    print(content['source'])
+    content['steps'] = content_List[2]
+    return render(request, 'random_recipe.html', content)
+

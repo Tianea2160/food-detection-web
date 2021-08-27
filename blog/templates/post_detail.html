@@ -23,8 +23,9 @@
     <br>
     <div class="container">
         <div class="jumbotron">
-            <h2>{{ post.id }}번째 포스트 입니다.</h2>
-            <p>Title : {{ post.title }}</p><hr>
+            <h2>This is {{ post.id }}th post</h2>
+            <p>Title : {{ post.title }}, Create_at : {{ info.first.create_at }}</p>
+            <hr>
             <div class="row">
                 <div class="col-md-6">
                     {% for photo in post.photo_set.all %}
@@ -34,18 +35,62 @@
                 <div class="col-md-4">
                     <h5>Food Detection Output</h5>
                     {% for output in post.output_set.all %}
-                        <p>- {{ output.name }}</p><br>
-                        <h5>{{ output.name }}의 영양정보</h5>
-                        <p>- {{ output.One_timesupply }}g</p>
-                        <p>- {{ output.Carbohydrate }}g</p>
-                        <p>- {{ output.Protein }}g</p>
-                        <p>- {{ output.Fat }}g</p>
-                        <p>- {{ output.sugars }}g</p>
-                        <p>- {{ output.energy }}kcal</p>
+                        <p> - {{ output.name }}</p>
                     {% endfor %}
-                </div>
-            </div><hr>
 
+                </div>
+            </div><hr><br>
+            <h2>Individual Nutrition Facts</h2>
+            <table class="table table-striped">
+                 <thead>
+                       <tr>
+                          <th>total Supply(g)</th>
+                          <th>Carbohydrate(g)</th>
+                          <th>Protein(g)</th>
+                          <th>Fat(g)</th>
+                          <th>sugars(g)</th>
+                          <th>energy(kcal)</th>
+                       </tr>
+                 </thead>
+                 <tbody>
+                     <tr>
+                         {% for output in post.output_set.all %}
+                             <td>{{ output.One_timesupply }}</td>
+                             <td>{{ output.Carbohydrate }}</td>
+                             <td>{{ output.Protein }}</td>
+                             <td>{{ output.Fat }}</td>
+                             <td>{{ output.sugars }}</td>
+                             <td>{{ output.energy }}</td>
+                         {% endfor %}
+                     </tr>
+                 </tbody>
+            </table><hr><br>
+            <h2>Total Nutrition Facts</h2>
+            <table class="table table-striped">
+                 <thead>
+                       <tr>
+                          <th>total Supply(g)</th>
+                          <th>Carbohydrate(g)</th>
+                          <th>Protein(g)</th>
+                          <th>Fat(g)</th>
+                          <th>sugars(g)</th>
+                          <th>energy(kcal)</th>
+                       </tr>
+                 </thead>
+                 <tbody>
+                     <tr>
+                         {% for info in post.total_information_set.all %}
+                             <td>{{ info.total_One_timesupply }}</td>
+                             <td>{{ info.total_Carbohydrate }}</td>
+                             <td>{{ info.total_Protein }}</td>
+                             <td>{{ info.total_Fat }}</td>
+                             <td>{{ info.total_sugars }}</td>
+                             <td>{{ info.total_energy }}</td>
+                         {% endfor %}
+                     </tr>
+                 </tbody>
+            </table><hr><br>
+            <h2>Total Nutrition Facts with Graphs</h2>
             <div class="row">
                 <div class="col-md-8">
                     <div class="container">
@@ -57,37 +102,11 @@
                         <canvas id="myChart2"></canvas>
                     </div>
                 </div>
-            </div><br><br><hr>
-
-                <h2>이번 영양정보표</h2>
-                <table class="table table-striped">
-                     <thead>
-                           <tr>
-                              <th>total Supply(g)</th>
-                              <th>Carbohydrate(g)</th>
-                              <th>Protein(g)</th>
-                              <th>Fat(g)</th>
-                              <th>sugars(g)</th>
-                              <th>energy(kcal)</th>
-                           </tr>
-                     </thead>
-                     <tbody>
-                         <tr>
-                             {% for info in post.total_information_set.all %}
-                                 <td>{{ info.total_One_timesupply }}</td>
-                                 <td>{{ info.total_Carbohydrate }}</td>
-                                 <td>{{ info.total_Protein }}</td>
-                                 <td>{{ info.total_Fat }}</td>
-                                 <td>{{ info.total_sugars }}</td>
-                                 <td>{{ info.total_energy }}</td>
-                             {% endfor %}
-                         </tr>
-                     </tbody>
-                </table><hr><br><br>
-                <h2>최근 식단과의 영양소 비교</h2><hr>
-                <div class="container">
-                    <canvas id="myChart3"></canvas>
-                </div>
+            </div><hr><br><br>
+            <h2>Comparison of nutritional content with recent diets</h2><hr>
+            <div class="container">
+                <canvas id="myChart3"></canvas>
+            </div>
 
         </div>
     </div>
@@ -202,4 +221,5 @@
     });
 
 </script>
+    
 {% endblock %}
