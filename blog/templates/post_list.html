@@ -21,9 +21,8 @@
 
                 <div class="col-md-4">
                     <h3>food detection output</h3>
-                    {% for output in post.output_set.all %}
-                        {% for i in facts %}
-                            food name : {{ i.Foodname2 }}
+                    {% for i in post.output_set.all %}
+                            food name : {{ i.name }}
                             <hr>
                             {{ i.One_timesupply }} g 당 {{ i.energy }} kcal
                             <br>
@@ -35,7 +34,6 @@
                             <br>
                             sugar : {{ i.Totalsugars }} g
                             <hr>
-                            {% endfor %}
                         <h5>{{ output.name }}</h5>
                     {% endfor %}
                 </div>

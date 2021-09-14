@@ -7,10 +7,12 @@
         {% for i in title %}
             <h3>{{ i }}</h3>
         {% endfor %}<hr>
+        <h2>음식 사진</h2>
+        <img src="{{ img }}" width="800" height="600" alt="random food img">
         <h2>재료</h2>
         {% for i in source.values %}
             {% for j in i %}
-                 - {{ j }}
+                 /{{ j }}/
             {% endfor %}
         {% endfor %}<hr>
         <h2>조리 과정</h2>
