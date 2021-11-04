@@ -1,7 +1,7 @@
 # food-detection-web
 이 깃 저장소는 광운대학교 국방 ict 창의과제 프로젝트를 위해서 제작된 것입니다.해당 저장소는 test용으로 제작된 저장소로 main 저장소의 위치는
 https://github.com/kwonnaseong/Food-calorie-calculation-app.git
-위와 같습니다.
+다음과 같습니다.
 
 웹을 만들었지만 이 프로젝트를 실행하기 위해서는 darknet53을 설치해야합니다. 
 사용환경은 <br>
